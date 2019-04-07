@@ -21,10 +21,15 @@ fetch(url)
     .then((resp) => resp.json())
     .then(function(data) {
         let buttons = data.buttons; // button values
+        let container = document.querySelector('.container');
 
         // Make multiple progress bars
         data.bars.map((value, index) => {
             // Create a progress bar
+
+            let pc = createNode('div');
+            pc.classList.add('progress');
+
             let p = createNode('div');
             p.classList.add('progress-bar');
             p.style.width = Math.round(value/data.limit*100) + '%';
@@ -34,12 +39,13 @@ fetch(url)
 
 
             // Append progress bar to container
-            append(document.querySelector(".progress"), p);
+            append(container, pc);
+            append(pc, p);
 
             let per = createNode('span');
             per.classList.add('percentage');
             per.innerText = p.style.width;
-            append(p, per);
+            append(pc, per);
 
             // Create the options
             let opt = createNode("option");
@@ -60,7 +66,7 @@ fetch(url)
 
         let limit = data.limit;
 
-        document.querySelector(".percentage").innerText = progress.style.width;
+        // document.querySelector(".percentage").innerText = progress.style.width;
 
         return buttons.map(function(button) {
             // Create the buttons
@@ -86,8 +92,8 @@ fetch(url)
                     progress.style.width = percent + '%';
                     progress.style.backgroundColor = 'green';
                 }
-
-                progress.querySelector(".percentage").innerText = percent + '%';
+                // console.log(progress.nextSibling);
+                progress.nextSibling.innerText = percent + '%';
 
             });
             append(btns, btn);
