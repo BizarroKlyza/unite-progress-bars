@@ -8,6 +8,10 @@ function append(parent, el) {
     return parent.appendChild(el);
 }
 
+function prepend(parent, el) {
+    return parent.prepend(el);
+}
+
 // Select where the buttons will be appended
 const btns = document.querySelector('.buttons');
 
@@ -36,8 +40,6 @@ fetch(url)
             p.setAttribute("id", "progress-"+index);
             p.setAttribute("data-initial", value);
 
-
-
             // Append progress bar to container
             append(container, pc);
             append(pc, p);
@@ -54,6 +56,7 @@ fetch(url)
 
         });
 
+        // Set initial values
         let selected = selector.options[selector.selectedIndex];
         let progress = document.querySelector('#progress-0');
         let initial = data.bars[0];
@@ -65,8 +68,6 @@ fetch(url)
         });
 
         let limit = data.limit;
-
-        // document.querySelector(".percentage").innerText = progress.style.width;
 
         return buttons.map(function(button) {
             // Create the buttons
@@ -92,7 +93,6 @@ fetch(url)
                     progress.style.width = percent + '%';
                     progress.style.backgroundColor = 'green';
                 }
-                // console.log(progress.nextSibling);
                 progress.nextSibling.innerText = percent + '%';
 
             });
