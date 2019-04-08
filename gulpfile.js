@@ -5,14 +5,17 @@ var gulp = require("gulp"),
     autoprefixer = require("autoprefixer"),
     cssnano = require("cssnano"),
     sourcemaps = require("gulp-sourcemaps"),
-    browserSync = require("browser-sync").create();
+    browserSync = require("browser-sync").create(),
+    uglifyes = require('uglify-es'),
+    composer = require('gulp-uglify/composer'),
+    uglify = composer(uglifyes, console);
 
 var paths = {
     styles: {
         // By using styles/**/*.sass we're telling gulp to check all folders for any sass file
         src: "src/scss/*.scss",
         // Compiled files will end up in whichever folder it's found in (partials are not compiled)
-        dest: "src/css"
+        dest: "public/styles"
     }
 
     // Easily add additional paths
@@ -38,6 +41,15 @@ function style() {
         .pipe(browserSync.stream());
 }
 
+// Gulp task to minify JavaScript files
+function scripts() {
+  return gulp
+    .src('./src/scripts/**/*.js')
+    // Minify the file
+    .pipe(uglify())
+    // Output
+    .pipe(gulp.dest('./public/scripts'));
+}
 
 
 
@@ -76,11 +88,12 @@ exports.watch = watch
 // This allows you to run it from the commandline using
 // $ gulp style
 exports.style = style;
+exports.scripts = scripts;
 
 /*
  * Specify if tasks run in series or parallel using `gulp.series` and `gulp.parallel`
  */
-var build = gulp.parallel(style, watch);
+var build = gulp.parallel(style, scripts, watch);
 
 /*
  * You can still use `gulp.task` to expose tasks

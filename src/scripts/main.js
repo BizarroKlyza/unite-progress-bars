@@ -13,12 +13,12 @@ function prepend(parent, el) {
 }
 
 // Select where the buttons will be appended
-const btns = document.querySelector('.buttons');
+let btns = document.querySelector('.buttons');
 
 // Select the progress select box
-const selector = document.querySelector('#progress-select');
+let selector = document.querySelector('#progress-select');
 
-const url = 'https://pb-api.herokuapp.com/bars';
+let url = 'https://pb-api.herokuapp.com/bars';
 
 // Consume the API
 fetch(url)
